@@ -141,6 +141,7 @@ def show_phone(args, book):
     phones = ", ".join(p.value for p in record.phones)
     return f"📱 Телефони {name}: {phones}"
 
+# Додати день народження за ім'ям
 @input_error
 def add_birthday(args, book):
     name, bday = args
@@ -150,6 +151,7 @@ def add_birthday(args, book):
     record.add_birthday(bday)
     return f"🎂 День народження для {name} додано."
 
+# Показати день народження за ім'ям
 @input_error
 def show_birthday(args, book):
     name = args[0]
@@ -158,6 +160,7 @@ def show_birthday(args, book):
         return "❌ День народження не вказано"
     return f"🎂 День народження {name}: {record.birthday.value.strftime('%d.%m.%Y')}"
 
+# Показати дні народження на наступному тижні
 @input_error
 def birthdays(args, book):
     upcoming = book.get_upcoming_birthdays()
@@ -172,9 +175,6 @@ def show_all(book):
         return "Контактів поки немає."
     return "\n".join(str(record) for record in book.values())
 
-def show_birthdays(book):
-    result = book.get_upcoming_birthdays()
-    return "\n".join(result) if result else "Немає привітань на цьому тижні."
 
 #MAIN
 def main():
@@ -202,6 +202,8 @@ def main():
             print(show_phone(args, book))
         elif command == "show-bday":
             print(show_birthday(args, book))
+        elif command == "nextweek-bday":
+            print(birthdays(args, book))
         elif command == "add-bday":
             print(add_birthday(args, book))
         elif command == "all":
